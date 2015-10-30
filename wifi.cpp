@@ -53,7 +53,7 @@ void readconf()
     ini_get(pini, "AP1.SSID", AP1_SSID);
     ini_get(pini, "AP2.SSID", AP2_SSID);
     ini_get(pini, "AP1.password", AP1_password);
-    ini_get(pini, "AP1.password", AP2_password);
+    ini_get(pini, "AP2.password", AP2_password);
     cout<<AP1_SSID<<endl<<AP2_SSID<<endl<<AP1_password<<endl<<AP2_password<<endl;
     //close ini file
     ini_close(pini);
