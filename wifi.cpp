@@ -128,8 +128,9 @@ int scannap()
                    connectap(AP2_SSID, AP2_password);
 		}
             }
-	    else
+	    else    //删除wifi默认网关
             {
+              system("route del default dev wlan0");
               system("echo no ap >> ./a.txt");
             }
         }
@@ -170,7 +171,7 @@ int connectap(const char *SSID, const char *password)
     cout<<commandch6<<endl;
     system(commandch6);
     free(commandch6);
-    sleep(10);
+    sleep(20);
     const char* connected_ap = whichapLinked();
     if (strcmp(connected_ap, NO_AP_CONNECTED) != 0)
     	system("udhcpc -i wlan0 -q");  
@@ -199,11 +200,20 @@ const char* whichapLinked()
     cgi_cmdExecAndGetLongResult(commandch,result);
     free(commandch);
     if (strstr(result, query_no_ap))
+    {
+        system("echo noapconnected >> ./whichapconnect.txt");
         return NO_AP_CONNECTED;
+    }
     else if (strstr(result, query_ap1))
+    {
+        system("echo ap1connected >> ./whichapconnect.txt");
         return AP1_SSID;
+    }
     else if (strstr(result, query_ap2))
+    {
+        system("echo ap2connected >> ./whichapconnect.txt");
         return AP2_SSID;
+    }
 }
 /****************************************************************************
 *  Function:        cgi_cmdExecAndGetLongResult
