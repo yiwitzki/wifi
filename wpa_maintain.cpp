@@ -9,7 +9,7 @@
 #include "iostream"
 using namespace std;
 
-#define TERMINAL_MAIN_PATHNAME "/home/hadoop/tp/wpa_supplicant_hostapd-0.8_rtw_r7475.20130812/wpa_supplicant"
+#define TERMINAL_MAIN_PATHNAME "/tmp/wifi/wpa_supplicant"
 #define TERMINAL_MAIN_NAME "wpa_supplicant"
 #define TERMINALMAIN_OK 0
 #define TERMINALMAIN_ERROR -1
@@ -21,12 +21,11 @@ int main(int argc, char **argv)
     while (1) 
     {
         //cout<<"in while"<<endl;
-        //system("killall wifi_maintain");
+        //system("killall wpa_supplicant");
         fPid = fork(); 
         if (0 == fPid)
         {
-            cout<<"execute"<<endl;
-            execl(TERMINAL_MAIN_PATHNAME, TERMINAL_MAIN_NAME,"-iwlan0", "-Dwext", "-c/home/hadoop/tp/wpa_supplicant_hostapd-0.8_rtw_r7475.20130812/wpa_supplicant.conf", (char *)0);
+            execl(TERMINAL_MAIN_PATHNAME, TERMINAL_MAIN_NAME,"-iwlan0", "-Dwext", "-c/tmp/wifi/wpa_supplicant.conf", (char *)0);
             exit(-1);
         }
         if (0 < fPid) 

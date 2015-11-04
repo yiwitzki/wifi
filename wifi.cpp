@@ -16,8 +16,8 @@ char AP2_SSID[20] = {0};
 char AP1_password[64] = {0};
 char AP2_password[64] = {0};
 const char* NO_AP_CONNECTED = "NOT CONNECTED";
-const string wpa_supplicant_path = "/mnt/wifi/";
-char* ap_conf_path = "/mnt/wifi/ap_conf";
+const string wpa_supplicant_path = "/tmp/wifi/";
+char* ap_conf_path = "/tmp/wifi/ap_conf.ini";
 //char* ap_conf_path = "/home/hadoop/tp/libini/ap_conf";
 
 void readconf();
@@ -128,9 +128,9 @@ int scannap()
                    connectap(AP2_SSID, AP2_password);
 		}
             }
-	    else    //删除wifi默认网关
+	    else
             {
-              system("route del default dev wlan0");
+	      system("route del default dev wlan0");
               system("echo no ap >> ./a.txt");
             }
         }
@@ -174,7 +174,7 @@ int connectap(const char *SSID, const char *password)
     sleep(20);
     const char* connected_ap = whichapLinked();
     if (strcmp(connected_ap, NO_AP_CONNECTED) != 0)
-    	system("udhcpc -i wlan0 -q");  
+    	system("udhcpc -i wlan0 -q -s /tmp/wifi/wifidhcp.script");  
     return 0;
 }
 char* string_to_char(string str)
@@ -200,20 +200,11 @@ const char* whichapLinked()
     cgi_cmdExecAndGetLongResult(commandch,result);
     free(commandch);
     if (strstr(result, query_no_ap))
-    {
-        system("echo noapconnected >> ./whichapconnect.txt");
         return NO_AP_CONNECTED;
-    }
     else if (strstr(result, query_ap1))
-    {
-        system("echo ap1connected >> ./whichapconnect.txt");
         return AP1_SSID;
-    }
     else if (strstr(result, query_ap2))
-    {
-        system("echo ap2connected >> ./whichapconnect.txt");
         return AP2_SSID;
-    }
 }
 /****************************************************************************
 *  Function:        cgi_cmdExecAndGetLongResult

@@ -9,8 +9,8 @@
 #include "iostream"
 using namespace std;
 
-#define TERMINAL_MAIN_PATHNAME "/tmp/wifi/wifi_main"
-#define TERMINAL_MAIN_NAME "wifi_main"
+#define TERMINAL_MAIN_PATHNAME "/tmp/wifi"
+#define TERMINAL_MAIN_NAME "wpa_supplicant"
 #define TERMINALMAIN_OK 0
 #define TERMINALMAIN_ERROR -1
 
@@ -21,12 +21,11 @@ int main(int argc, char **argv)
     while (1) 
     {
         //cout<<"in while"<<endl;
-        system("killall wifi_main");
+        //system("killall wifi_maintain");
         fPid = fork(); 
         if (0 == fPid)
         {
-           // cout<<"execute"<<endl;
-            execl(TERMINAL_MAIN_PATHNAME, TERMINAL_MAIN_NAME, (char *)0);
+            execl(TERMINAL_MAIN_PATHNAME, TERMINAL_MAIN_NAME,"-iwlan0", "-Dwext", "-c/tmp/wifi/wpa_supplicant.conf", (char *)0);
             exit(-1);
         }
         if (0 < fPid) 
@@ -36,5 +35,4 @@ int main(int argc, char **argv)
     }
     return 0;
 }
-
 
